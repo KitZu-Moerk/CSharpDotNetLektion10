@@ -1,0 +1,43 @@
+﻿<p>
+    <button class="btn btn-primary" type="button" onclick="@ToggleCollapseAsync">
+        @_buttonText
+    </button>
+</p>
+<div class="@(_collapseState ? "collapse" : "collapse.show")" id="collapseExample">
+    <div class="card card-body">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment ChildContent { get; set; }
+    
+    [Parameter] 
+    public string OpenText { get; set; }
+    
+    [Parameter] 
+    public string CloseText { get; set; }
+    
+    private bool _collapseState;
+    private string _buttonText;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _buttonText = OpenText;
+    }
+
+    private async Task ToggleCollapseAsync()
+    {
+        if (_collapseState) {
+            _buttonText = CloseText;
+        }
+        else
+        {
+            _buttonText = OpenText;
+        }
+        _collapseState = !_collapseState;
+    }
+}
