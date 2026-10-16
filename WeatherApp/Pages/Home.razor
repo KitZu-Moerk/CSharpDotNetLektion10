@@ -1,0 +1,77 @@
+﻿@page "/"
+@using System.Globalization
+@inject IWeatherService WeatherService
+@inject WeatherCodes WeatherCodes
+<PageTitle>Home</PageTitle>
+
+<h1>Vejret</h1>
+<select  onchange="@FetchWeatherForecastAsync">
+    @foreach(var city in _cities)
+    {
+        <option value="@city.Id">@city.Name</option>
+    }
+</select>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Dag</th>
+        <th scope="col">Minimum temperatur</th>
+        <th scope="col">Maximum temperatur</th>
+        <th scope="col">Beskrivelse</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var daily in _weatherForecast.DailyWeathers)
+        {
+            <tr>
+                <td>@daily.day</td>
+                <td>@daily.minTemp.ToString("F2")</td>
+                <td>@daily.maxTemp.ToString("F2")</td>
+                <td>@daily.weatherDescription</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code
+{
+    private WeatherForecastDto _weatherForecast = new();
+    private DateTime dateTime = DateTime.Now;
+    private List<City> _cities = new()
+    {
+        new City(0, "Aarhus", 56.1567, 10.2108),
+        new City(1, "Copenhagen", 55.6761, 12.5683),
+        new City(2, "Odense", 55.4038, 10.4024),
+        new City(3, "Aalborg", 57.0488, 9.9217),
+        new City(4, "Esbjerg", 55.4765, 8.4594)
+    };
+    
+    private async Task FetchWeatherForecastAsync(ChangeEventArgs eventArgs)
+    {
+        if (eventArgs is not null)
+        {
+            var selectedCityId = int.Parse(eventArgs.Value?.ToString() ?? "0");
+            var selectedCity = _cities.FirstOrDefault(c => c.Id == selectedCityId);
+            if (selectedCity is not null)
+            {
+                var response = await WeatherService.GetForecastAsync(selectedCity.Latitude, selectedCity.Longitude);
+                if (response is not null)
+                {
+                    _weatherForecast = new WeatherForecastDto();
+                    var danish = CultureInfo.GetCultureInfo("da-DK");
+                    dateTime = DateTime.Now;
+                    for (var index = 0; index < response.Daily.Temperature2mMax.Length; index++)
+                    {
+                        _weatherForecast.DailyWeathers.Add(
+                            new DailyWeather(
+                                danish.DateTimeFormat.GetDayName(dateTime.DayOfWeek),
+                                response.Daily.Temperature2mMin[index],
+                                response.Daily.Temperature2mMax[index],
+                                WeatherCodes.GetWeatherDescription(response.Daily.WeatherCode[index])));
+                        dateTime = dateTime.AddDays(1);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -3,7 +3,7 @@
     <Project Path="Examples/BlazorComponents/BlazorComponents.csproj" />
   </Folder>
   <Folder Name="/Lektion09/">
-    <Project Path="WeatherService/WeatherService.csproj" />
+    <Project Path="WeatherApp/WeatherApp.csproj" />
   </Folder>
   <Folder Name="/Slides/">
     <File Path="Slides/BlazorComponents.md" />
