@@ -1,0 +1,15 @@
+﻿@page "/"
+@using ComponentsExercises.Components
+
+<PageTitle>Components Opgaver</PageTitle>
+
+<button class="btn btn-primary" onclick="@OpenModal">Åbn Modal</button>
+
+<Modal>
+</Modal>
+
+@code {
+
+    private bool isModelOpen = false;
+    private void OpenModal() => isModelOpen = true;
+}

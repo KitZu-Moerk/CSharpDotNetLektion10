@@ -1,9 +1,19 @@
 ﻿@page "/"
 @using BlazorComponents.Components
 
+
 <PageTitle>Home</PageTitle>
 
 <Collapse OpenText="Vis indhold" CloseText="Skjul indhold">Dette er en speciel meddelse</Collapse>
 <div class="mt-3">
-    <PillButton>Test</PillButton>
+    <PillButton OnClickCallBack="@SetText">Test</PillButton>
 </div>
+<p class="mt-3 bg-secondary-subtle">@text</p>
+
+@code {
+    private string text = "start";
+    private void SetText(MouseEventArgs e)
+    {
+        text = $"Clicked at {e.ClientX}, {e.ClientY}";
+    }
+}

@@ -1,0 +1,58 @@
+@page "/rating"
+@using ComponentsExercises.Components
+
+<PageTitle>Film Bedømmelse</PageTitle>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">🎬 Film Bedømmelse</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">@movie.Title <small class="text-muted fs-6">(@movie.Year)</small></h3>
+                    <h6 class="card-subtitle mb-3 text-muted">
+                        Instruktør: @movie.Director &bull; Genre: @movie.Genre
+                    </h6>
+                    <p class="card-text">@movie.Description</p>
+
+                    <hr />
+
+                    <div class="rating-section my-3">
+                        <label class="form-label d-block fw-bold">Din bedømmelse:</label>
+
+                        <!-- Starter kode: Forbind Stars-komponenten her -->
+                        <Stars />
+
+                        <div class="mt-2 text-muted">
+                            Nuværende rating: <span class="badge bg-warning text-dark fs-6">@movie.Rating / 5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Movie movie = new()
+    {
+        Title = "Inception",
+        Year = 2010,
+        Director = "Christopher Nolan",
+        Genre = "Sci-Fi / Action",
+        Description = "En tyv, der stjæler virksomhedshemmeligheder gennem brugen af drømmedelingsteknologi, får den omvendte opgave at plante en idé i sindet på en administrerende direktør.",
+        Rating = 3
+    };
+
+    public class Movie
+    {
+        public string Title { get; set; } = string.Empty;
+        public int Year { get; set; }
+        public string Director { get; set; } = string.Empty;
+        public string Genre { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public int Rating { get; set; }
+    }
+}

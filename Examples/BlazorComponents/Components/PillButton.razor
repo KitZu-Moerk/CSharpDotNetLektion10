@@ -1,7 +1,11 @@
-﻿<button class="rounded-pill btn btn-primary">@ChildContent</button>
+﻿<button class="rounded-pill btn btn-primary" onclick="@OnClickCallBack">@ChildContent</button>
 
 @code {
     [Parameter]
     [EditorRequired]
     public RenderFragment ChildContent { get; set; }
+    
+    [Parameter]
+    [EditorRequired]
+    public EventCallback<MouseEventArgs> OnClickCallBack { get; set; }
 }
