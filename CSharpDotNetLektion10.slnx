@@ -5,6 +5,12 @@
   <Folder Name="/Lektion09/">
     <Project Path="WeatherApp/WeatherApp.csproj" />
   </Folder>
+  <Folder Name="/Opgaver/">
+    <File Path="Opgaver/opgaver.md" />
+  </Folder>
+  <Folder Name="/Opgaver/Opgave01/">
+    <Project Path="Opgaver/ComponentsExercises/ComponentsExercises.csproj" />
+  </Folder>
   <Folder Name="/Slides/">
     <File Path="Slides/BlazorComponents.md" />
   </Folder>
