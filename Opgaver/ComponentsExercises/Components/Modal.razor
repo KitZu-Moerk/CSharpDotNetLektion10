@@ -4,10 +4,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" aria-label="Close"></button>
+                    <h5 class="modal-title">@Title</h5>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="OnClose"></button>
                 </div>
                 <div class="modal-body">
+                    @ChildContent
                 </div>
             </div>
         </div>
@@ -15,5 +16,8 @@
 }
 
 @code {
-    public bool IsOpen { get; set; }
-}
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+}    

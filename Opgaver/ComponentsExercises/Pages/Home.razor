@@ -5,11 +5,14 @@
 
 <button class="btn btn-primary" onclick="@OpenModal">Åbn Modal</button>
 
-<Modal>
+<Modal
+    IsOpen="isModelOpen" Title="Min titel" OnClose="CloseModal"> 
+    <p>Hej med dig</p>
 </Modal>
 
 @code {
 
     private bool isModelOpen = false;
     private void OpenModal() => isModelOpen = true;
+    private void CloseModal() => isModelOpen = false; 
 }

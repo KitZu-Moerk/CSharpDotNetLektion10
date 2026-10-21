@@ -23,8 +23,8 @@
                         <label class="form-label d-block fw-bold">Din bedømmelse:</label>
 
                         <!-- Starter kode: Forbind Stars-komponenten her -->
-                        <Stars />
-
+                        <Stars @bind-Rating="movie.Rating"/>
+                        
                         <div class="mt-2 text-muted">
                             Nuværende rating: <span class="badge bg-warning text-dark fs-6">@movie.Rating / 5</span>
                         </div>

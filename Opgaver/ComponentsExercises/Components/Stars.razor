@@ -1,12 +1,16 @@
-<div class="stars-container">
-    <span class="star filled">★</span>
-    <span class="star filled">★</span>
-    <span class="star filled">★</span>
-    <span class="star">★</span>
-    <span class="star">★</span>
+<div class="stars-container" @onmouseover=" () => HoverRating = 0">
+    @for (int i = 1; i <= 5; i++)
+    {
+        var value = i;
+        <span class="star @(i <= (HoverRating > 0 ? HoverRating : Rating) ? "filled" : "")" @onclick="() => { if (!ReadOnly) RatingChanged.InvokeAsync(value); }" @onmouseout=" () => { if (!ReadOnly) HoverRating = value; }">★</span>
+    }
 </div>
 
 @code {
+    [Parameter] public int Rating { get; set; }
+    [Parameter] public EventCallback<int> RatingChanged { get; set; }
+    [Parameter] public bool ReadOnly {  get; set; }
+    private int HoverRating { get; set; }
     // Starter kode: 
     // Gør stjernerne dynamiske, så antallet af udfyldte stjerner afspejler en modtaget rating,
     // og sørg for, at klik på en stjerne underretter forældresiden om den nye værdi.
