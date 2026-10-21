@@ -8,7 +8,7 @@ footer: 'Blazor WASM (.NET 10) | Parent & Child Komponent-Arkitektur'
 style: |
   section {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    padding: 35px 45px;
+    padding: 30px 45px 35px 45px;
     background-color: #f8f9fa;
     color: #212529;
   }
@@ -16,21 +16,21 @@ style: |
   h2 {
     color: #170C3A;
     border-bottom: 3px solid #512BD4;
-    padding-bottom: 6px;
-    font-size: 1.4em;
+    padding-bottom: 5px;
+    font-size: 1.35em;
     margin-top: 0;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
-  h3 { color: #512BD4; font-size: 1.1em; margin-top: 8px; margin-bottom: 5px; }
+  h3 { color: #512BD4; font-size: 1.05em; margin-top: 6px; margin-bottom: 4px; }
   p, ul, ol { margin-bottom: 8px; font-size: 0.88em; }
   li { margin-bottom: 3px; }
   blockquote {
     background: #eef2ff;
     border-left: 6px solid #512BD4;
     margin: 8px 0;
-    padding: 8px 12px;
+    padding: 7px 12px;
     border-radius: 0 8px 8px 0;
-    font-size: 0.85em;
+    font-size: 0.84em;
   }
   code {
     background-color: #282a36;
@@ -43,10 +43,10 @@ style: |
     background-color: #1e1e2e !important;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    font-size: 0.72em;
-    line-height: 1.35;
-    padding: 10px 14px;
-    margin: 6px 0;
+    font-size: 0.70em;
+    line-height: 1.32;
+    padding: 8px 12px;
+    margin: 5px 0;
     color: #f8f8f2 !important;
   }
   pre code { font-size: 1em; padding: 0; background-color: transparent; color: #f8f8f2 !important; }
@@ -71,19 +71,19 @@ style: |
   .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 6px; }
   .card {
     background: white;
-    padding: 12px 14px;
+    padding: 11px 13px;
     border-radius: 8px;
     border-top: 4px solid #512BD4;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
-  .card h3 { margin-top: 0; margin-bottom: 6px; font-size: 1.05em; }
+  .card h3 { margin-top: 0; margin-bottom: 5px; font-size: 1.02em; }
   .card p, .card ul, .card ol { font-size: 0.83em; margin-bottom: 4px; }
   .card ul, .card ol { padding-left: 16px; }
-  pre.ascii-diagram { font-size: 0.64em; line-height: 1.2; padding: 8px 12px; color: #50fa7b !important; }
+  pre.ascii-diagram { font-size: 0.63em; line-height: 1.2; padding: 8px 12px; color: #50fa7b !important; }
 ---
 
 # 🚀 Blazor WebAssembly Components (.NET 10)
-### Client-side Arkitektur, Parent/Child Kommunikaiton & RenderFragment
+### Client-side Arkitektur, Parent/Child Kommunikation & RenderFragment
 
 **Formål**: En dybdegående guide til opbygning af Blazor WebAssembly (WASM) komponenter i .NET 10 med fokus på samspillet mellem Pages og Child Components.
 
@@ -97,7 +97,7 @@ Blazor WebAssembly afvikler C# kode direkte i browseren via WebAssembly (WASM) r
 <div class="card">
 
 ### ⚙️ WASM Eksekvering i .NET 10
-* **Client-side**: C#-kode og .NET 10 assemblies hentes til browseren og køres i browserens WebAssembly sandkasse.
+* **Client-side**: C#-kode og .NET 10 assemblies hentes til browseren og afvikles i browserens sandkasse.
 * **AOT & JIT**: Understøtter Ahead-Of-Time (AOT) kompilering for maksimal ydelse i tung logik.
 * **Ingen Server Dependency**: UI opdateres lokalt i browseren — lynhurtige brugerinteraktioner!
 
@@ -105,7 +105,7 @@ Blazor WebAssembly afvikler C# kode direkte i browseren via WebAssembly (WASM) r
 <div class="card">
 
 ### 💻 SPA (Single Page Application)
-* **DOM Manipulation**: Blazor WASM opdaterer browserens DOM direkte via en effektiv WebAssembly-to-JS bro.
+* **DOM Manipulation**: Blazor WASM opdaterer browserens DOM direkte via en effektiv WebAssembly-bro.
 * **REST / Web APIs**: Henter data fra backend mikroservices via `HttpClient` (JSON / gRPC Web).
 * **Offline Capability**: Kan køre offline som Progressive Web App (PWA).
 
@@ -118,8 +118,7 @@ Blazor WebAssembly afvikler C# kode direkte i browseren via WebAssembly (WASM) r
 
 En Blazor WASM applikation opbygges som et træ af genanvendelige `.razor` komponenter.
 
-```
-       [ App.razor ] (Router & App Root)
+<pre class="ascii-diagram"><code>       [ App.razor ] (Router & App Root)
              │
       [ MainLayout.razor ] (Layout Container)
              │
@@ -129,10 +128,9 @@ En Blazor WASM applikation opbygges som et træ af genanvendelige `.razor` kompo
      │                                  │
      ├──> [ ProductCard.razor ] (Child)  └──> [ CartItemRow.razor ] (Child)
      │         └──> [ RatingStars.razor ]             └──> [ AmountInput.razor ]
-     └──> [ Pagination.razor ] (Child)
-```
+     └──> [ Pagination.razor ] (Child)</code></pre>
 
-* **Page (`@page "/url"`)**: Top-level komponent med routing. Styrer overordnet sidetilstand og hender data via APIs.
+* **Page (`@page "/url"`)**: Top-level komponent med routing. Styrer overordnet sidetilstand og henter data via APIs.
 * **Child Component**: Genanvendelig UI-byggeklods. Modtager data fra sin parent og sender events tilbage.
 
 ---
@@ -141,8 +139,7 @@ En Blazor WASM applikation opbygges som et træ af genanvendelige `.razor` kompo
 
 Når en komponent oprettes og vises i browseren, gennemløber den en veldefineret livscyklus:
 
-```
-[ SetParametersAsync ]  ──> Initialiserer parametre fra Parent Page
+<pre class="ascii-diagram"><code>[ SetParametersAsync ]  ──> Initialiserer parametre fra Parent Page
          │
          ▼
 [ OnInitialized / Async ]  ──> Udføres ÉN gang i WASM ved komponent-oprettelse
@@ -157,14 +154,13 @@ Når en komponent oprettes og vises i browseren, gennemløber den en veldefinere
 [ OnAfterRender / Async ]  ──> Udføres EFTER HTML er opdateret i DOM'en
          │
          ▼
-     [ Dispose ]  ──> Oprydning i WASM hukommelse når komponenten fjernes
-```
+     [ Dispose ]  ──> Oprydning i WASM hukommelse når komponenten fjernes</code></pre>
 
 ---
 
 ## ⏳ 4. WASM Livscyklus i Praksis (Datahentning & JS)
 
-I ren Blazor WASM kører `OnInitializedAsync` **kun én gang** direkte i browseren, hvilket gør den ideel til API-kald via `HttpClient`.
+I ren Blazor WASM kører `OnInitializedAsync` **kun én gang** direkte i browseren — ideelt til API-kald via `HttpClient`.
 
 <div class="grid-2">
 <div class="card">
@@ -192,7 +188,7 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
 {
     if (firstRender)
     {
-        // Sikker placering til browser-API'er i WASM
+        // Sikker browser-adgang efter DOM er klar
         await JS.InvokeVoidAsync("initTooltip");
     }
 }
@@ -201,7 +197,7 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
 </div>
 </div>
 
-> 💡 **WASM Tip**: Da der ikke er server pre-rendering i ren WASM, undgår man dobbelte API-kald under opstart!
+> 💡 **WASM Tip**: I ren client-side WASM undgås dobbelte API-kald under opstart, da der ikke er server pre-rendering.
 
 ---
 
@@ -209,7 +205,10 @@ protected override async Task OnAfterRenderAsync(bool firstRender)
 
 Data flyder **nedad** i hierarkiet fra forældrekomponenten (Page) til børnekomponenten (Child) via parametre.
 
-### 🔹 Child Komponent (`ProductCard.razor`)
+<div class="grid-2">
+<div class="card">
+
+### 👶 Child (`ProductCard.razor`)
 ```razor
 <div class="product-card">
     <h4>@Title</h4>
@@ -217,26 +216,40 @@ Data flyder **nedad** i hierarkiet fra forældrekomponenten (Page) til børnekom
 </div>
 
 @code {
-    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
-    [Parameter] public decimal Price { get; set; }
+    [Parameter, EditorRequired] 
+    public string Title { get; set; } = "";
+
+    [Parameter] 
+    public decimal Price { get; set; }
 }
 ```
 
-### 🔹 Parent Page (`ProductsPage.razor`)
+</div>
+<div class="card">
+
+### 👨‍👦 Parent Page (`ProductsPage.razor`)
 ```razor
 @page "/products"
 
 @foreach (var item in productList)
 {
-    <ProductCard Title="@item.Name" Price="@item.Price" />
+    <ProductCard Title="@item.Name" 
+                 Price="@item.Price" />
+}
+
+@code {
+    private List<Product> productList = [];
 }
 ```
 
+</div>
+</div>
+
 ---
 
-## 📤 6. Child ➔ Parent: Kommunikaiton via `EventCallback`
+## 📤 6. Child ➔ Parent: Kommunikation via `EventCallback`
 
-Børnekomponenter informerer deres Parent om brugerhandlinger ved at udløse en `EventCallback` eller `EventCallback<T>`.
+Børnekomponenter informerer deres Parent om brugerhandlinger ved at udløse en `EventCallback<T>`.
 
 <div class="grid-2">
 <div class="card">
@@ -249,11 +262,8 @@ Børnekomponenter informerer deres Parent om brugerhandlinger ved at udløse en 
     [Parameter] public Product Item { get; set; } = default!;
     [Parameter] public EventCallback<Product> OnAddToCart { get; set; }
 
-    private async Task HandleClick()
-    {
-        // Sender event op til Parent Page
-        await OnAddToCart.InvokeAsync(Item);
-    }
+    private async Task HandleClick() 
+        => await OnAddToCart.InvokeAsync(Item);
 }
 ```
 
@@ -268,25 +278,23 @@ Børnekomponenter informerer deres Parent om brugerhandlinger ved at udløse en 
 <p>Antal i kurv: @basket.Count</p>
 
 @code {
-    private List<Product> basket = new();
+    private List<Product> basket = [];
 
-    private void AddToBasket(Product prod)
-    {
-        basket.Add(prod); // Parent gen-rendres automatisk!
-    }
+    private void AddToBasket(Product prod) 
+        => basket.Add(prod); // Trigger re-render!
 }
 ```
 
 </div>
 </div>
 
-> ⚡ **Hvorfor `EventCallback`?**: `EventCallback` udløser **automatisk `StateHasChanged()`** på Parent-komponenten og håndterer `async Task` sikkert i WASM runtime.
+> ⚡ **Hvorfor `EventCallback`?**: Udløser automatisk `StateHasChanged()` på Parent og håndterer `async Task` sikkert i runtime.
 
 ---
 
-## 🧩 7. Parent & Child Composition: `RenderFragment` & `ChildContent`
+## 🧩 7. Composition: `RenderFragment` & `ChildContent`
 
-Hvad hvis en Parent ønsker at sende **HTML/Razor markering** direkte ind i en Child komponent? Her bruges `RenderFragment` og konventionen `ChildContent`!
+Send **HTML/Razor markering** direkte fra Parent ind i en Child komponent via `RenderFragment`.
 
 <div class="grid-2">
 <div class="card">
@@ -295,9 +303,7 @@ Hvad hvis en Parent ønsker at sende **HTML/Razor markering** direkte ind i en C
 ```razor
 <div class="card-container">
     <div class="card-header">@HeaderTitle</div>
-    <div class="card-body">
-        @ChildContent <!-- Rendrer indhold fra Parent -->
-    </div>
+    <div class="card-body">@ChildContent</div>
 </div>
 
 @code {
@@ -321,45 +327,62 @@ Hvad hvis en Parent ønsker at sende **HTML/Razor markering** direkte ind i en C
 </div>
 </div>
 
-> 💡 **Hvad er `ChildContent`?**: Når et parameter i en child komponent hedder præcis `ChildContent` af typen `RenderFragment`, opfanger Blazor automatisk alt markup skrevet imellem child-tags'ene!
+> 💡 **Konvention**: Parameter navngivet præcis `ChildContent` af typen `RenderFragment` opfanger automatisk markup imellem tags'ene!
 
 ---
 
-## 🎨 8. Avancerede Skabeloner: `RenderFragment<TItem>`
+## 🎨 8. Skabelon-parametre: `RenderFragment<TItem>`
 
-Med skabelon-parametre (`RenderFragment<TItem>`) kan en Child-komponent sende **data-kontekst** tilbage til Parent's UI-skabelon (f.eks. til genanvendelige tabeller og lister).
+Med skabelon-parametre kan en Child-komponent sende data-kontekst tilbage til Parent's UI-skabelon.
 
-### 📋 Generic List Child (`DataList.razor`)
+<div class="grid-2">
+<div class="card">
+
+### 📋 Generic Child (`DataList.razor`)
 ```razor
 @typeparam TItem
 
 <ul>
     @foreach (var item in Items)
     {
-        <li>@ItemTemplate(item)</li> <!-- Sender 'item' som kontekst til Parent -->
+        <li>@ItemTemplate(item)</li>
     }
 </ul>
 
 @code {
-    [Parameter] public IReadOnlyList<TItem> Items { get; set; } = Array.Empty<TItem>();
-    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = null!;
+    [Parameter] 
+    public IReadOnlyList<TItem> Items { get; set; } = [];
+    
+    [Parameter] 
+    public RenderFragment<TItem> ItemTemplate { get; set; } = null!;
 }
 ```
+
+</div>
+<div class="card">
 
 ### 🏠 Parent Page (`UsersPage.razor`)
 ```razor
 <DataList Items="@userList">
     <ItemTemplate Context="user">
-        <strong>@user.Name</strong> — <span>@user.Email</span>
+        <strong>@user.Name</strong>
+        <span>(@user.Email)</span>
     </ItemTemplate>
 </DataList>
+
+@code {
+    private List<User> userList = [];
+}
 ```
+
+</div>
+</div>
 
 ---
 
-## 🌊 9. Dybe Hierarkier: `[CascadingParameter]` & `<CascadingValue>`
+## 🌊 9. Dybe Hierarkier: Cascading Values & Parameters
 
-Når data skal overføres igennem mange komponent-niveauer (f.eks. Auth State, Tema eller Global Session), undgås "prop-drilling" med Cascading Values.
+Undgå "prop-drilling" over mange komponent-niveauer ved at lade data flyde kaskaderende ned igennem træet.
 
 <div class="grid-2">
 <div class="card">
@@ -392,18 +415,18 @@ Når data skal overføres igennem mange komponent-niveauer (f.eks. Auth State, T
 </div>
 </div>
 
-> 🔐 **.NET 10 WASM Integration**: Blazors `AuthenticationStateProvider` benytter internt `CascadingParameter` til at levere brugerens log ind-status til alle underkomponenter.
+> 🔐 **.NET 10 WASM Integration**: Blazors `AuthenticationStateProvider` benytter internt `CascadingParameter` til brugerens log ind-status.
 
 ---
 
 ## 🔄 10. Two-Way Data Binding (`@bind` & .NET 10)
 
-Blazor understøtter to-vejs databinding mellem Parent og Child ved hjælp af `Value` og `ValueChanged` navnekonventionen.
+Blazor understøtter to-vejs databinding mellem Parent og Child via `Value` og `ValueChanged` konventionen.
 
 <div class="grid-2">
 <div class="card">
 
-### 🎛️ Child Component (`CustomCounter.razor`)
+### 🎛️ Child (`CustomCounter.razor`)
 ```razor
 <button @onclick="Increment">+</button>
 <span>@Count</span>
@@ -425,7 +448,7 @@ Blazor understøtter to-vejs databinding mellem Parent og Child ved hjælp af `V
 <!-- To-vejs bind mod Child -->
 <CustomCounter @bind-Count="currentCount" />
 
-<!-- Advanced .NET 10 Binding med Modifier -->
+<!-- .NET 10 Binding med Modifier & After -->
 <input @bind:get="searchQuery"
        @bind:set="(val) => searchQuery = val"
        @bind:after="PerformSearchAsync" />
@@ -434,8 +457,7 @@ Blazor understøtter to-vejs databinding mellem Parent og Child ved hjælp af `V
 </div>
 </div>
 
-* `@bind-Count="currentCount"` binder automatisk `Count` og lytter på `CountChanged`.
-* `@bind:after` gør det let at køre async søge-kald efter binding-opdatering uden manuel setter.
+> ⚡ **Konvention & .NET 10**: `@bind-Count` mapper til `Count` + `CountChanged`. `@bind:after` eksekverer en async søgemetode direkte efter opdatering.
 
 ---
 
@@ -480,58 +502,89 @@ Nogle gange har Parent-komponenten brug for direkte adgang til Child-objektet el
 
 ---
 
-## ⚡ 12. WASM Rendering, Diffing & Performance i .NET 10
+## ⚡ 12. WASM Rendering & Diffing Pipeline
 
 Blazor WASM opdaterer browserens DOM via en in-memory **RenderTree Diffing Engine**.
 
-```
-[ C# Tilstandsændring i WASM ]
+<pre class="ascii-diagram"><code>[ C# Tilstandsændring i WASM ]
                │
                ▼
     [ Nyt RenderTree Bygges ]
                │
                ▼
-    [ Diff mod Forrige RenderTree ]  ──> Genererer minimal sæt DOM-opdateringer
+    [ Diff mod Forrige RenderTree ]  ──> Genererer minimalt sæt DOM-opdateringer
                │
                ▼
-[ WASM ➔ JS DOM Opdatering i Browser ]
-```
+[ WASM ➔ JS DOM Opdatering i Browser ]</code></pre>
 
-### 🚀 Optimeringstips for Child Komponenter:
-1. **Brug `@key` i lister**: Hjælper WASM med at spore elementer ved sortering (`<ItemRow @key="item.Id" />`).
-2. **Overvej `ShouldRender()`**: Forhindrer gen-rendering af tung børne-UI hvis data ikke har ændret sig.
-3. **Immutability**: Send uforanderlige objekter som parametre for hurtig sammenligning.
+* **C# Execution i Browser**: Ændringer i komponentens tilstand udløser genberegning i WASM runtime.
+* **Effektiv DOM-synkronisering**: Kun de elementer og attributter, der reelt er ændret, skrives til browserens DOM.
 
 ---
 
-## 🏆 13. Best Practices for WASM Parent/Child Arkitektur
+## 🚀 13. WASM Performance Optimering i Praksis
+
+I WebAssembly-miljøet er minimering af unødige render-kald nøglen til en flydende brugeroplevelse.
+
+<div class="grid-3">
+<div class="card">
+
+### 🔑 Brug `@key` i Lister
+Hjælper WASM med at spore elementer ved sortering eller filtrering, så DOM-knuder genbruges:
+```razor
+<ItemRow @key="item.Id" 
+         Item="item" />
+```
+
+</div>
+<div class="card">
+
+### 🛑 `ShouldRender()`
+Forhindrer gen-rendering af tunge børnekomponenter, hvis data ikke har ændret sig:
+```csharp
+protected override bool 
+    ShouldRender() => isDirty;
+```
+
+</div>
+<div class="card">
+
+### 📦 Immutability
+Brug uforanderlige records (`record class`) som parametre for lynhurtig reference-sammenligning i stedet for dybe scanninger.
+
+</div>
+</div>
+
+---
+
+## 🏆 14. Best Practices for WASM Parent/Child Arkitektur
 
 <div class="grid-2">
 <div class="card">
 
 ### 🎯 Arkitektur & Dataflow
 1. **Unidirectional Dataflow**: Data sendes *ned* via `[Parameter]`, events sendes *op* via `EventCallback`.
-2. **Single Responsibility**: Hold børnekomponenter rene og præsentationsorienterede (UI-only). Lad Pages/Services styre forretningslogik.
-3. **Brug `RenderFragment`**: Byg fleksible, genanvendelige layouts med `ChildContent`.
+2. **Single Responsibility**: Hold børnekomponenter rene og præsentationsorienterede (UI-only).
+3. **Brug `RenderFragment`**: Byg fleksible, sammensættelige layouts med `ChildContent`.
 
 </div>
 <div class="card">
 
 ### 🛡️ Performance & Oprydning i WASM
-1. **Hukommelsesoprydning**: Implementer `IDisposable` / `IAsyncDisposable` i børnekomponenter til at afmelde C# events eller timere.
-2. **Undgå tunge beregninger i `OnParametersSet`**: Brug cacheniveau eller børne-events.
-3. **Brug `EventCallback` frem for `Action`**: Undgår trådlækager og manuelle `StateHasChanged()`-kald.
+1. **Hukommelsesoprydning**: Implementer `IDisposable` til at afmelde C# events eller timere.
+2. **Lette `OnParametersSet`**: Undgå tunge beregninger ved hver parameteropdatering.
+3. **Brug `EventCallback`**: Undgå manuelle `StateHasChanged()`-kald og trådlækager.
 
 </div>
 </div>
 
 ---
 
-## ❓ 14. Spørgsmål & Refleksion
+## ❓ 15. Spørgsmål & Refleksion
 
 * Hvad er den primære forskel på `RenderFragment` (som f.eks. `ChildContent`) og en standard `[Parameter]` property?
 * Hvorfor anbefales `EventCallback<T>` frem for standard C# `Action<T>` til forældre-kommunikation i Blazor WASM?
-* Hvordan hjælper `.NET 10` WebAssembly runtime med at optimere rendering i store komponent-træer?
+* Hvordan hjælper RenderTree diffing i .NET 10 WebAssembly med at opnå høj performance i store komponent-træer?
 
 ---
 

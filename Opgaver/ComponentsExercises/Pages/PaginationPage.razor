@@ -1,0 +1,110 @@
+@page "/pagination"
+@using ComponentsExercises.Components
+
+<PageTitle>Produktoversigt (Paginering)</PageTitle>
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">📦 Produktoversigt</h5>
+            <span class="badge bg-light text-dark">Side @currentPage af @totalPages</span>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">
+                Denne side viser en liste over produkter opdelt i sider. Forbind og tilpas
+                <code>Pagination</code>-komponenten forneden, så tabellen dynamisk viser de rigtige produkter for den valgte side.
+            </p>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th>Varenavn</th>
+                            <th>Kategori</th>
+                            <th class="text-end">Pris</th>
+                            <th class="text-center">Lager</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in displayedProducts)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">#@product.Id</span></td>
+                                <td class="fw-semibold">@product.Name</td>
+                                <td><span class="badge bg-info text-dark">@product.Category</span></td>
+                                <td class="text-end">@product.Price.ToString("C0", new System.Globalization.CultureInfo("da-DK"))</td>
+                                <td class="text-center">
+                                    @if (product.InStock)
+                                    {
+                                        <span class="badge bg-success">På lager</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Udsolgt</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <div class="text-muted small">
+                    Viser @displayedProducts.Count() ud af @products.Count produkter
+                </div>
+
+                <!-- Starter kode: Forbind Pagination-komponenten her -->
+                <Pagination />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int currentPage = 1;
+    private int pageSize = 5;
+
+    private int totalPages => (int)Math.Ceiling((double)products.Count / pageSize);
+
+    private IEnumerable<Product> displayedProducts =>
+        products.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+    // Starter kode: Tilknyt denne metode eller opdater currentPage direkte fra komponenten
+    private void HandlePageChanged(int newPage)
+    {
+        currentPage = newPage;
+    }
+
+    private readonly List<Product> products = new()
+    {
+        new(1, "Logitech MX Master 3S", "Elektronik", 799, true),
+        new(2, "Dell UltraSharp 27\" 4K", "Skærme", 3890, true),
+        new(3, "Keychron K2 Mekanisk Tastatur", "Tastaturer", 699, true),
+        new(4, "Sony WH-1000XM5 Hovedtelefoner", "Lyd", 2499, false),
+        new(5, "Clean Code af Robert C. Martin", "Bøger", 349, true),
+        new(6, "Ergonomisk Hæve-/sænkebord 160x80", "Møbler", 4200, true),
+        new(7, "Herman Miller Aeron Kontorstol", "Møbler", 8990, true),
+        new(8, "Elgato Stream Deck MK.2", "Streaming", 1190, false),
+        new(9, "Apple MacBook Pro 16\" M3", "Computere", 19999, true),
+        new(10, "Samsung 990 Pro 2TB NVMe SSD", "Hardware", 1349, true),
+        new(11, "Anker 737 PowerBank 24.000mAh", "Tilbehør", 899, true),
+        new(12, "CalDigit TS4 Thunderbolt 4 Dock", "Tilbehør", 3290, false),
+        new(13, "Pragmatic Programmer af David Thomas", "Bøger", 399, true),
+        new(14, "BenQ ScreenBar Halo Skærmlampe", "Belysning", 1290, true),
+        new(15, "SteelSeries QcK Heavy Musemåtte", "Tilbehør", 199, true),
+        new(16, "LG C3 42\" OLED Skærm", "Skærme", 6990, true),
+        new(17, "Raspberry Pi 5 8GB Starter Kit", "Hardware", 749, false),
+        new(18, "Shure SM7B Dynamisk Mikrofon", "Lyd", 2890, true),
+        new(19, "Focusrite Scarlett 2i2 Gen 4", "Lyd", 1490, true),
+        new(20, "Design Patterns af Gang of Four", "Bøger", 429, true),
+        new(21, "Nordic Desk Mat Filt/Læder", "Tilbehør", 249, true),
+        new(22, "Ubiquiti UniFi Dream Router", "Netværk", 1850, false),
+        new(23, "Synology DS923+ 4-Bay NAS", "Netværk", 4690, true),
+        new(24, "WD Red Plus 4TB NAS Harddisk", "Hardware", 899, true),
+        new(25, "Logitech Brio 4K Webcam", "Streaming", 1290, true)
+    };
+
+    public record Product(int Id, string Name, string Category, decimal Price, bool InStock);
+}
