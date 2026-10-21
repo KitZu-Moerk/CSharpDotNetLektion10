@@ -56,8 +56,11 @@
                 </div>
 
                 <!-- Starter kode: Forbind Pagination-komponenten her -->
-                <Pagination />
-            </div>
+                <Pagination TotalItems="@products.Count"
+                    PageSize="@pageSize"
+                    CurrentPage="@currentPage"
+                    PageChanged="HandlePageChanged" />
+                </div>
         </div>
     </div>
 </div>
